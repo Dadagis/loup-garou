@@ -1,11 +1,13 @@
 import React from "react";
-import logo from "./logo.svg";
+import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 
 function App() {
   return (
     <React.Fragment>
-      <main className="container"></main>
+      <main className="container">
+        <h1>salut</h1>
+      </main>
     </React.Fragment>
   );
 }
