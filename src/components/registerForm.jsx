@@ -6,22 +6,22 @@ import auth from "../services/authService";
 
 class RegisterForm extends Form {
   state = {
-    data: { username: "", password: "", name: "" },
+    data: { email: "", password: "", name: "" },
     errors: {}
   };
 
   schema = {
-    username: Joi.string()
+    email: Joi.string()
       .required()
       .email()
-      .label("Username"),
+      .label("Email"),
     password: Joi.string()
       .required()
       .min(5)
-      .label("Password"),
+      .label("Mot de passe"),
     name: Joi.string()
       .required()
-      .label("Name")
+      .label("Nom")
   };
 
   doSubmit = async () => {
@@ -32,7 +32,7 @@ class RegisterForm extends Form {
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
-        errors.username = ex.response.data;
+        errors.email = ex.response.data;
         this.setState({ errors });
       }
     }
@@ -41,12 +41,12 @@ class RegisterForm extends Form {
   render() {
     return (
       <div>
-        <h1>Register</h1>
+        <h1>Inscription</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("username", "Username")}
-          {this.renderInput("password", "Password", "password")}
-          {this.renderInput("name", "Name")}
-          {this.renderButton("Register")}
+          {this.renderInput("email", "Email")}
+          {this.renderInput("password", "Mot de passe", "password")}
+          {this.renderInput("name", "Nom")}
+          {this.renderButton("S'inscrire")}
         </form>
       </div>
     );
