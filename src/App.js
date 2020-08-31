@@ -1,12 +1,17 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
+import NavBar from "./components/navBar";
+import LoginForm from "./components/loginForm";
 
 function App() {
   return (
     <React.Fragment>
       <main className="container">
-        <h1>salut</h1>
+        <NavBar />
+        <Switch>
+          <Route path="/login" component={LoginForm} />
+        </Switch>
       </main>
     </React.Fragment>
   );
