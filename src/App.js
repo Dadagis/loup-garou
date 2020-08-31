@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/navBar";
 import LoginForm from "./components/loginForm";
+import Home from "./components/home";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/login" component={LoginForm} />
+          <Route path="/" component={Home} />
         </Switch>
       </main>
     </React.Fragment>
