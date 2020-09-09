@@ -4,6 +4,7 @@ import "./App.css";
 import NavBar from "./components/navBar";
 import LoginForm from "./components/loginForm";
 import Home from "./components/home";
+import NewGameForm from "./components/newGameForm";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <main className="container">
         <NavBar />
         <Switch>
+          <Route path="/games/new" component={NewGameForm} />
           <Route path="/login" component={LoginForm} />
           <Route path="/" component={Home} />
         </Switch>
