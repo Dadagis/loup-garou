@@ -12,6 +12,7 @@ function App() {
       <main className="container">
         <NavBar />
         <Switch>
+          <Route path="/games/:id/start" component={} />
           <Route path="/games/new" component={NewGameForm} />
           <Route path="/login" component={LoginForm} />
           <Route path="/" component={Home} />

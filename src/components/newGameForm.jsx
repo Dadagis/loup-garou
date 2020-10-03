@@ -44,11 +44,12 @@ export default class NewGameForm extends Form {
   };
 
   render() {
-    if (auth.getCurrentUser() === null) return <Redirect to="/" />;
+    // décommenter quand le login fonctionne
+    // if (auth.getCurrentUser() === null) return <Redirect to="/" />;
 
     return (
       <div>
-        <h1>Login</h1>
+        <h1>Créer une partie</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("gameName", "Nom de la partie")}
           {this.renderButton("Créer la partie")}
