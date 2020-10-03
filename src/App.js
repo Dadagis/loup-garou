@@ -3,13 +3,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/navBar";
 import LoginForm from "./components/loginForm";
-<<<<<<< HEAD
 import Home from "./components/home";
 import NewGameForm from "./components/newGameForm";
 import RegisterForm from "./components/registerForm";
-=======
-import RegisterForm from './components/registerForm';
->>>>>>> cb3fdc6e2a431ee78a876dda9d12335346c4d8d1
 import auth from "./services/authService";
 
 class App extends Component {
@@ -28,16 +24,11 @@ class App extends Component {
         <main className="container">
           <NavBar user={user} />
           <Switch>
-<<<<<<< HEAD
             {/* <Route path="/games/:id/start" component={} /> */}
             <Route path="/games/new" component={NewGameForm} />
             <Route path="/login" component={LoginForm} />
             <Route path="/register" component={RegisterForm} />
             <Route path="/" component={Home} />
-=======
-            <Route path="/login" component={LoginForm} />
-            <Route path="/register" component={RegisterForm} />
->>>>>>> cb3fdc6e2a431ee78a876dda9d12335346c4d8d1
           </Switch>
         </main>
       </React.Fragment>
