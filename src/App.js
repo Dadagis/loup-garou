@@ -3,32 +3,23 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/navBar";
 import LoginForm from "./components/loginForm";
-import RegisterForm from './components/registerForm';
-import auth from "./services/authService";
+import Home from "./components/home";
+import NewGameForm from "./components/newGameForm";
 
-class App extends Component {
-  state = {};
-
-  componentDidMount() {
-    const user = auth.getCurrentUser();
-    this.setState({ user });
-  }
-
-  render() {
-    const { user } = this.state;
-
-    return (
-      <React.Fragment>
-        <main className="container">
-          <NavBar user={user} />
-          <Switch>
-            <Route path="/login" component={LoginForm} />
-            <Route path="/register" component={RegisterForm} />
-          </Switch>
-        </main>
-      </React.Fragment>
-    );
-  }
+function App() {
+  return (
+    <React.Fragment>
+      <main className="container">
+        <NavBar user={user} />
+        <Switch>
+          <Route path="/games/:id/start" component={} />
+          <Route path="/games/new" component={NewGameForm} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/" component={Home} />
+        </Switch>
+      </main>
+    </React.Fragment>
+  );
 }
 
 export default App;
