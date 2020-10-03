@@ -7,12 +7,14 @@ import Home from "./components/home";
 import NewGameForm from "./components/newGameForm";
 import RegisterForm from "./components/registerForm";
 import auth from "./services/authService";
+import Logout from './components/logout';
 
 class App extends Component {
   state = {};
 
-  componentDidMount() {
-    const user = auth.getCurrentUser();
+  async componentDidMount() {
+    const user = await auth.getCurrentUser();
+    console.log(user);
     this.setState({ user });
   }
 
@@ -28,6 +30,7 @@ class App extends Component {
             <Route path="/games/new" component={NewGameForm} />
             <Route path="/login" component={LoginForm} />
             <Route path="/register" component={RegisterForm} />
+            <Route path="/logout" component={Logout} />
             <Route path="/" component={Home} />
           </Switch>
         </main>
