@@ -33,7 +33,7 @@ export default class NewGameForm extends Form {
         const { state } = this.props.location;
         window.location = state
           ? state.from.pathname
-          : `games/${response.data._id}/start`;
+          : `/games/${response.data._id}/start`;
       });
       // await auth.login(data.username, data.password);
     } catch (ex) {
