@@ -37,9 +37,9 @@ class LoginForm extends Form {
   };
 
   render() {
-    if (auth.getCurrentUser()) return <Redirect to="/" />;
+    if (auth.isAuthenticated()) return <Redirect to="/" />;
 
-    return (
+      return (
       <div>
         <h1>Connexion</h1>
         <form onSubmit={this.handleSubmit}>

@@ -5,12 +5,14 @@ import NavBar from "./components/navBar";
 import LoginForm from "./components/loginForm";
 import RegisterForm from './components/registerForm';
 import auth from "./services/authService";
+import Logout from './components/logout';
 
 class App extends Component {
   state = {};
 
-  componentDidMount() {
-    const user = auth.getCurrentUser();
+  async componentDidMount() {
+    const user = await auth.getCurrentUser();
+    console.log(user);
     this.setState({ user });
   }
 
@@ -24,6 +26,7 @@ class App extends Component {
           <Switch>
             <Route path="/login" component={LoginForm} />
             <Route path="/register" component={RegisterForm} />
+            <Route path="/logout" component={Logout} />
           </Switch>
         </main>
       </React.Fragment>

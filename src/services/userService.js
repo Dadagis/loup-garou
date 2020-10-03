@@ -11,3 +11,7 @@ export function register(user) {
     name: user.name
   });
 }
+
+export function getUser(userId) {
+  
+}
