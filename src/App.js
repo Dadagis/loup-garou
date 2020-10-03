@@ -9,6 +9,7 @@ import RegisterForm from "./components/registerForm";
 import auth from "./services/authService";
 import NewGame from "./components/newGame";
 import Logout from './components/logout';
+import GameRolesChoices from "./components/gameRolesChoices";
 
 class App extends Component {
   state = {};
@@ -32,7 +33,9 @@ class App extends Component {
             <Route path="/login" component={LoginForm} />
             <Route path="/register" component={RegisterForm} />
             <Route path="/logout" component={Logout} />
+            <Route path="/choixRoles" component={GameRolesChoices} />
             <Route path="/" component={Home} />
+            
           </Switch>
         </main>
       </React.Fragment>
