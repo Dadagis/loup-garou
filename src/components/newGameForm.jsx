@@ -29,11 +29,13 @@ export default class NewGameForm extends Form {
         {
           headers: headers,
         }
-      );
+      ).then((response) => {
+        const { state } = this.props.location;
+        window.location = state
+          ? state.from.pathname
+          : `/games/${response.data._id}/start`;
+      });
       // await auth.login(data.username, data.password);
-
-      const { state } = this.props.location;
-      window.location = state ? state.from.pathname : "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
