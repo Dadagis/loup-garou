@@ -6,7 +6,17 @@ import LoginForm from "./components/loginForm";
 import Home from "./components/home";
 import NewGameForm from "./components/newGameForm";
 
-function App() {
+class App extends Component {
+  state = {};
+
+  componentDidMount() {
+    const user = auth.getCurrentUser();
+    this.setState({ user });
+  }
+
+  render() {
+    const { user } = this.state;
+
   return (
     <React.Fragment>
       <main className="container">
