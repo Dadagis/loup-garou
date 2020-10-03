@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from 'react'
 import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/navBar";
@@ -10,7 +10,7 @@ function App() {
   return (
     <React.Fragment>
       <main className="container">
-        <NavBar />
+        <NavBar user={user} />
         <Switch>
           <Route path="/games/:id/start" component={} />
           <Route path="/games/new" component={NewGameForm} />
