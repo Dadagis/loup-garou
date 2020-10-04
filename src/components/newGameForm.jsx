@@ -8,19 +8,17 @@ import auth from "../services/authService";
 export default class NewGameForm extends Form {
   state = {
     data: {
-      gameName : "",
-      playersNumber : 3,
+      gameName: "",
+      playersNumber: 3,
+      players: [],
     },
     errors: {},
   };
 
   schema = {
-    gameName: Joi.string().required().label("Username"),
-    playersNumber: Joi.number()
-    .integer()
-    .min(3)
-    .max(13)
-    .required(),
+    gameName: Joi.string().required().label("Game name"),
+    playersNumber: Joi.number().integer().min(3).max(13).required(),
+    players: Joi.array(),
   };
 
   doSubmit = async () => {
@@ -28,22 +26,27 @@ export default class NewGameForm extends Form {
       const { data } = this.state;
 
       const headers = {
-        "x-auth-token":
-          auth.getJwt(),
+        "x-auth-token": auth.getJwt(),
       };
       console.log(headers);
-      await http.post(
-        "http://localhost:4000/api/games/",
-        { name : data.gameName, playersNumber : data.playersNumber },
-        {
-          headers: headers,
-        }
-      ).then((response) => {
-        const { state } = this.props.location;
-        window.location = state
-          ? state.from.pathname
-          : `/games/${response.data._id}/roles`;
-      });
+      await http
+        .post(
+          "http://localhost:4000/api/games/",
+          {
+            name: data.gameName,
+            playersNumber: data.playersNumber,
+            players: data.players,
+          },
+          {
+            headers: headers,
+          }
+        )
+        .then((response) => {
+          const { state } = this.props.location;
+          window.location = state
+            ? state.from.pathname
+            : `/games/${response.data._id}/roles`;
+        });
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };

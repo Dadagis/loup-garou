@@ -18,6 +18,7 @@ export default class NewGame extends Component {
     await this.getRoles();
     this.getGameRoles();
     this.refreshGame();
+    this.setPlayers();
   };
 
   getGame = async function () {
@@ -60,6 +61,25 @@ export default class NewGame extends Component {
       });
     });
     this.setState({ gameRoles });
+  };
+
+  setPlayers = async () => {
+    const gameId = this.props.location.pathname.split("/")[2];
+    const currentUser = await auth.getCurrentUser();
+    const headers = {
+      "x-auth-token": auth.getJwt(),
+    };
+    http
+      .patch(
+        `http://localhost:4000/api/games/${gameId}/join`,
+        {
+          userId: currentUser._id,
+        },
+        { headers }
+      )
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   componentWillUnmount = function () {
@@ -106,7 +126,7 @@ export default class NewGame extends Component {
         <h2>Rôles</h2>
         <div className="d-flex">
           {gameRoles.map((role) => (
-            <Fragment key={role.name[0]}>
+            <Fragment key={role._id}>
               <div className="d-flex flex-column align-items-center mx-2">
                 <span style={pinStyle}>{role.name[0]}</span>
                 <span>{role.name}</span>
