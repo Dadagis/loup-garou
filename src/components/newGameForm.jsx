@@ -31,10 +31,9 @@ export default class NewGameForm extends Form {
         "x-auth-token":
           auth.getJwt(),
       };
-      console.log(headers);
       await http.post(
         "http://localhost:4000/api/games/",
-        { name : data.gameName, playersNumber : data.playersNumber },
+        { name : data.gameName, playersNumber : data.playersNumber, hoteId : auth.isAuthenticated()._id },
         {
           headers: headers,
         }
