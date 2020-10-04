@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import http from "../services/httpService";
 import auth from "../services/authService";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Fragment } from "react";
 
 export default class NewGame extends Component {
   state = {
@@ -75,6 +76,18 @@ export default class NewGame extends Component {
     const { gameRoles, game } = this.state;
     const { players } = this.state.game;
     const id = this.props.location.pathname.split("/")[2];
+    const pinStyle = {
+      backgroundColor: "#0496ff",
+      color: "white",
+      fontWeight: "bold",
+      borderRadius: "9999px",
+      display: "flex",
+      height: "3rem",
+      width: "3rem",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "xx-large",
+    };
     return (
       <div>
         <h1>Salon d'avant partie</h1>
@@ -91,9 +104,14 @@ export default class NewGame extends Component {
         </div>
         <p>Vous êtes le créateur de la partie vous devez choisir les rôles</p>
         <h2>Rôles</h2>
-        <div>
+        <div className="d-flex">
           {gameRoles.map((role) => (
-            <span key={role._id}>{role.name}</span>
+            <Fragment key={role.name[0]}>
+              <div className="d-flex flex-column align-items-center mx-2">
+                <span style={pinStyle}>{role.name[0]}</span>
+                <span>{role.name}</span>
+              </div>
+            </Fragment>
           ))}
         </div>
         <div>
