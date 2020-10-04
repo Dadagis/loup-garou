@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 import http from "../services/httpService";
 import auth from "../services/authService";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export default class NewGame extends Component {
-  state = { game: {}, roles: [], gameRoles: [], interval: "" };
+  state = {
+    game: {},
+    roles: [],
+    gameRoles: [],
+    interval: "",
+    copied: "Copier",
+  };
 
   componentDidMount = async () => {
     await this.getGame();
@@ -59,6 +66,11 @@ export default class NewGame extends Component {
     clearInterval(this.state.interval);
   };
 
+  renderButton(label) {
+    let style = label === "Copié !" ? "btn btn-success" : "btn btn-primary";
+    return <button className={style}>{label}</button>;
+  }
+
   render() {
     const { gameRoles, game } = this.state;
     const { players } = this.state.game;
@@ -66,9 +78,17 @@ export default class NewGame extends Component {
     return (
       <div>
         <h1>Salon d'avant partie</h1>
-        <p>
-          Voici le code à partager avec vos amis : <strong>{id}</strong>
-        </p>
+        <div>
+          <p>
+            Voici le code à partager avec vos amis : <strong>{id}</strong>
+          </p>
+          <CopyToClipboard
+            text={id}
+            onCopy={() => this.setState({ copied: "Copié !" })}
+          >
+            {this.renderButton(this.state.copied)}
+          </CopyToClipboard>
+        </div>
         <p>Vous êtes le créateur de la partie vous devez choisir les rôles</p>
         <h2>Rôles</h2>
         <div>
