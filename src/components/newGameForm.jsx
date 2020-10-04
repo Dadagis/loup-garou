@@ -1,31 +1,40 @@
-import React, { Component } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import Joi from "joi-browser";
 import Form from "./common/form";
+import http from "../services/httpService";
 import auth from "../services/authService";
-import Axios from "axios";
 
 export default class NewGameForm extends Form {
   state = {
-    data: { gameName: "" },
+    data: {
+      gameName : "",
+      playersNumber : 3,
+    },
     errors: {},
   };
 
   schema = {
     gameName: Joi.string().required().label("Username"),
+    playersNumber: Joi.number()
+    .integer()
+    .min(3)
+    .max(13)
+    .required(),
   };
 
   doSubmit = async () => {
     try {
       const { data } = this.state;
-      // TOKEN A RECUPERER AU LOGIN ET A STOCKER DANS LE NAVIGATEUR DES QUE POSSIBLE
+
       const headers = {
         "x-auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjU4Yzc3OWYxNWYzOTBlYWQ0YWNmN2MiLCJpYXQiOjE1OTk2NTM3NTN9.8DwdfGlEZRz3ZHHDD98XmoYKTTPhDs-gJIG-xVBQZLk",
+          auth.getJwt(),
       };
-      await Axios.post(
+      console.log(headers);
+      await http.post(
         "http://localhost:4000/api/games/",
-        { name: data.gameName },
+        { name : data.gameName, playersNumber : data.playersNumber },
         {
           headers: headers,
         }
@@ -33,9 +42,8 @@ export default class NewGameForm extends Form {
         const { state } = this.props.location;
         window.location = state
           ? state.from.pathname
-          : `/games/${response.data._id}/start`;
+          : `/games/${response.data._id}/roles`;
       });
-      // await auth.login(data.username, data.password);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -46,14 +54,14 @@ export default class NewGameForm extends Form {
   };
 
   render() {
-    // décommenter quand le login fonctionne
-    // if (auth.getCurrentUser() === null) return <Redirect to="/" />;
+    if (auth.isAuthenticated() === null) return <Redirect to="/" />;
 
     return (
       <div>
         <h1>Créer une partie</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("gameName", "Nom de la partie")}
+          {this.renderInput("playersNumber", "Nombre de joueurs")}
           {this.renderButton("Créer la partie")}
         </form>
       </div>
