@@ -69,17 +69,16 @@ export default class NewGame extends Component {
     const headers = {
       "x-auth-token": auth.getJwt(),
     };
-    http
-      .patch(
-        `http://localhost:4000/api/games/${gameId}/join`,
-        {
-          userId: currentUser._id,
-        },
-        { headers }
-      )
-      .then((response) => {
-        console.log(response);
-      });
+    http.patch(
+      `http://localhost:4000/api/games/${gameId}/join`,
+      {
+        userId: currentUser._id,
+      },
+      { headers }
+    );
+    // .then((response) => {
+    //   console.log(response);
+    // });
   };
 
   componentWillUnmount = function () {

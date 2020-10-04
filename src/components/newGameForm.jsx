@@ -28,14 +28,14 @@ export default class NewGameForm extends Form {
       const headers = {
         "x-auth-token": auth.getJwt(),
       };
-      console.log(headers);
+      const decoded = auth.isAuthenticated();
       await http
         .post(
           "http://localhost:4000/api/games/",
           {
             name: data.gameName,
             playersNumber: data.playersNumber,
-            players: data.players,
+            hoteId: decoded._id,
           },
           {
             headers: headers,
