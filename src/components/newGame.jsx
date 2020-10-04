@@ -1,55 +1,89 @@
 import React, { Component } from "react";
-import Axios from "axios";
+import http from "../services/httpService";
+import auth from "../services/authService";
 
 export default class NewGame extends Component {
-  state = { players: [], roles: [] };
+  state = { game: {},roles: [], gameRoles: [], interval: "" };
 
-  componentWillMount = async () => {
-    await Axios.get("http://localhost:4000/api/roles/index").then(
+
+  componentDidMount = async () => {
+    await this.getGame();
+    await this.getRoles();
+    this.getGameRoles();
+    this.refreshGame();
+    
+  };
+
+  getGame = async function(){
+    try {
+      const headers = {
+        "x-auth-token":
+          auth.getJwt(),
+      };
+
+      const gameId = this.props.location.pathname.split("/")[2];
+
+      await http.get(`http://localhost:4000/api/games/${gameId}`, 
+      {headers}
+      ).then((response) => {
+        this.setState({ game: response.data });
+      });
+    } catch (error) {
+    }
+  }
+  refreshGame = async function() {
+    var interval = setInterval(async () => {
+      this.getGame();
+    }, 1000);
+    this.setState({interval});
+  }
+
+  getRoles = async function(){
+    await http.get("http://localhost:4000/api/roles/index").then(
       (response) => {
         this.setState({ roles: response.data });
       }
     );
-  };
+  }
 
-  handleClick = async () => {
-    try {
-      const headers = {
-        "x-auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjU4Yzc3OWYxNWYzOTBlYWQ0YWNmN2MiLCJpYXQiOjE1OTk2NTM3NTN9.8DwdfGlEZRz3ZHHDD98XmoYKTTPhDs-gJIG-xVBQZLk",
-      };
-      const gameId = this.props.location.pathname.split("/")[2];
-
-      await Axios.get(`http://localhost:4000/api/games/${gameId}`, {
-        headers: headers,
-      }).then((response) => {
-        this.setState({ players: response.data.players });
+  getGameRoles = function(){
+    const {roles, game} = this.state;
+    let gameRoles = [];
+    console.log(game);
+    game.rolesId.forEach(roleId => {
+      roles.forEach(role => {
+        if (roleId === role._id){
+          gameRoles.push(role);
+        }
       });
-    } catch (error) {
-      console.log(error);
-    }
+    });
+    this.setState({gameRoles})
+  }
+  
+  componentWillUnmount = function() {
+    // use intervalId from the state to clear the interval
+    clearInterval(this.state.interval);
   };
+
 
   render() {
-    const { roles } = this.state;
+    const { gameRoles, game } = this.state;
+    const { players } = this.state.game;
     return (
       <div>
         <h1>Salon d'avant partie</h1>
         <p>Vous êtes le créateur de la partie vous devez choisir les rôles</p>
         <h2>Rôles</h2>
         <div>
-          {roles.map((role) => (
+          {gameRoles.map((role) => (
             <span key={role._id}>{role.name}</span>
           ))}
         </div>
         <div>
           <h3>Liste des joueurs</h3>
           <ul>
-            {this.state.players.map((player) => (
-              <li key={player}>{player}</li>
-            ))}
+          
           </ul>
-          <button onClick={this.handleClick}>Update</button>
         </div>
       </div>
     );
